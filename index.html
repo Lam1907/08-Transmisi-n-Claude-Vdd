@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danzad Malditos · Broadcast</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="broadcast.css">
+  <style>
+    /* Seguridad: todas las pantallas ocultas hasta que JS active una */
+    .screen { display: none !important; }
+    .screen.active { display: flex !important; }
+    body { background: #04040a; margin: 0; }
+  </style>
+</head>
+<body>
+
+<div class="scanline"></div>
+<div id="app">
+
+  <!-- ═══ SCREEN 1: WAITING ═══ -->
+  <section id="screen-waiting" class="screen">
+    <div class="waiting-bg"></div>
+    <div id="waiting-pieces" class="waiting-pieces-wrap"></div>
+    <div class="waiting-center">
+      <div class="waiting-line"></div>
+      <h1 class="waiting-title">Danzad<br>Malditos</h1>
+      <div class="waiting-line"></div>
+      <p class="waiting-subtitle">Esperando inicio de votación</p>
+    </div>
+  </section>
+
+  <!-- ═══ SCREEN 2: VOTING ═══ -->
+  <section id="screen-voting" class="screen">
+    <div class="voting-bg"></div>
+
+    <div class="voting-top">
+      <div class="voting-brand">Danzad Malditos</div>
+      <div class="voting-state">Votación en Curso</div>
+    </div>
+
+    <!-- Cover Flow 3D -->
+    <div id="coverflow-wrap" class="coverflow-wrap">
+      <div id="coverflow-track" class="coverflow-track"></div>
+    </div>
+
+    <!-- Timer + votos -->
+    <div class="voting-bottom">
+      <div class="timer-ring-wrap">
+        <!--
+          SVG ring: r=68, circunferencia=427.26
+          transform="rotate(-90 80 80)" → empieza desde las 12
+          stroke directo en color (sin url()) → funciona en GitHub Pages
+        -->
+        <svg width="180" height="180" viewBox="0 0 160 160"
+             xmlns="http://www.w3.org/2000/svg" style="display:block">
+          <!-- Track -->
+          <circle cx="80" cy="80" r="68"
+                  fill="none" stroke="#18182a" stroke-width="6"/>
+          <!-- Progreso -->
+          <circle id="ring-progress"
+                  cx="80" cy="80" r="68"
+                  fill="none"
+                  stroke="#c9a84c"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                  stroke-dasharray="427.26"
+                  stroke-dashoffset="0"
+                  transform="rotate(-90 80 80)"/>
+        </svg>
+        <!-- Número: fuera del SVG, centrado con position:absolute -->
+        <div id="timer-number" class="timer-number">00:00</div>
+      </div>
+      <div class="timer-unit-label">tiempo restante</div>
+      <div class="voting-votes">
+        Votos registrados: <strong id="vote-count">0</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SCREEN 3: CONSOLIDATION ═══ -->
+  <section id="screen-consolidation" class="screen">
+    <div class="cons-bg"></div>
+    <div class="watermark">Danzad Malditos</div>
+    <div id="cons-title" class="cons-title-wrap">
+      <div class="cons-eyebrow">Resultados de la ronda</div>
+      <div class="cons-main">Consolidando</div>
+      <div class="cons-line"></div>
+    </div>
+    <!-- JS monta cada pareja aquí -->
+    <div id="pair-reveal" class="pair-reveal" style="display:none"></div>
+  </section>
+
+  <!-- ═══ SCREEN 4: PAIRS ═══ -->
+  <section id="screen-pairs" class="screen">
+    <div class="pairs-bg"></div>
+    <div class="watermark">Danzad Malditos</div>
+    <div class="pairs-header">
+      <div class="pairs-eyebrow">Parejas de la ronda</div>
+      <div class="pairs-main-title">Las Parejas</div>
+    </div>
+    <div id="pairs-grid" class="pairs-grid"></div>
+  </section>
+
+  <!-- ═══ SCREEN 5: WINNER ═══ -->
+  <section id="screen-winner" class="screen">
+    <div class="winner-bg"></div>
+    <canvas id="winner-canvas" class="winner-canvas"></canvas>
+    <!-- JS construye toda la secuencia aquí -->
+    <div id="winner-content" class="winner-content"></div>
+  </section>
+
+</div><!-- /#app -->
+
+<div id="overlay-elim"></div>
+
+<div class="conn-badge">
+  <div id="conn-dot" class="conn-dot"></div>
+  <span id="conn-label">Conectando</span>
+</div>
+
+<script type="module" src="broadcast.js"></script>
+</body>
+</html>
